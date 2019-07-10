@@ -3,19 +3,6 @@ function TreeNode(val) {
     this.left = this.right = null;
 } 
 
-// var buildTree = function(nodes) {
-//     const root = new TreeNode(nodes[0])
-//     let level = 1
-
-//     for (let L = 1; L <= Math.ceil(Math.log2(nodes.length + 1)); L = L*2) {
-//         console.log(L)
-
-//     }
-
-//     while (node)    
-// };
-
-
 let traverseInOrder = function(root) {
     if (!root) {
         return null
@@ -62,12 +49,27 @@ let traverseLevelOrder = function(root) {
     }
 }
 
-const tree = [
-1,
-2,                             3,
-4,           5,                6,             null,
-8,   null,   null,    11,      12,      13
-];
+let serializeInOrder = function(arr) {
+    if (arr.length == null)
+        return null
+
+    let queue = []
+    queue.push(new TreeNode(arr[0]))
+    let root = queue[0]
+    let i = 0
+    let node
+    while (i < arr.length - 2) {
+        node = queue.shift()
+        node.left  = new TreeNode(arr[++i])
+        node.right = new TreeNode(arr[++i])
+        queue.push(node.left)
+        queue.push(node.right)
+    }
+
+    return root
+
+}
+
 
 const root = new TreeNode(1)
 let temp = root
@@ -89,4 +91,12 @@ temp.right = new TreeNode(7)
 // traversePostOrder(root)
 
 
-traverseLevelOrder(root)
+// traverseLevelOrder(root)
+
+//serialize from in-order array value input
+
+const tree = [1,2,3,4,5,6,7, null, 9, null, 11]
+
+const deserializedTree = serializeInOrder(tree)
+
+traverseLevelOrder(deserializedTree)

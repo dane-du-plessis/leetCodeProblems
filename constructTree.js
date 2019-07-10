@@ -58,12 +58,21 @@ let serializeInOrder = function(arr) {
     let root = queue[0]
     let i = 0
     let node
-    while (i < arr.length - 2) {
+    while (i < arr.length) {
         node = queue.shift()
-        node.left  = new TreeNode(arr[++i])
-        node.right = new TreeNode(arr[++i])
-        queue.push(node.left)
-        queue.push(node.right)
+        // (arr.length > ++i) && (node.left  = new TreeNode(arr[i]));
+        // (arr.length > ++i) && (node.right = new TreeNode(arr[i]));
+        
+        if (++i < arr.length) {
+            node.left  = new TreeNode(arr[i]);
+            queue.push(node.left);
+        }
+        
+        if (++i < arr.length) {
+            node.right = new TreeNode(arr[i])
+            queue.push(node.right)
+        }
+
     }
 
     return root
@@ -95,7 +104,9 @@ temp.right = new TreeNode(7)
 
 //serialize from in-order array value input
 
-const tree = [1,2,3,4,5,6,7, null, 9, null, 11]
+// const tree = [1,2,3,4,5,6,7, null, 9, null, 11]
+
+const tree = [1,2,null,4]
 
 const deserializedTree = serializeInOrder(tree)
 

@@ -71,8 +71,8 @@ var levelOrderPrint = function(root) {
 var levelOrder = function(root) {
     if (!root)
         return []
-    // const max = 1000
-    // let cycle = 0
+    const max = 100
+    let cycle = 0
 
     const result = []
     let row = []
@@ -82,10 +82,10 @@ var levelOrder = function(root) {
     let node
     // do stuff
     queue.push(root)
-    // while(queue.length > 0 || cycle > max) {
-    while(queue.length > 0) {
+    while(queue.length > 0 && cycle < max) {
+    // while(queue.length > 0) {
 
-        // cycle++
+        cycle++
         node = queue.shift()
         // console.log(node.val)
         counter++// read queue -> increment counter
@@ -94,11 +94,13 @@ var levelOrder = function(root) {
             queue.push(node.left)
             queue.push(node.right)
         } else {
-            // queue.push(null)
+            queue.push(null)
+            queue.push(null)
+
         }
 
         if (counter >= nodesInLevel) {
-            // console.log(counter + " " + nodesInLevel + " " + row)
+            console.log(counter + " " + nodesInLevel + " " + row)
             nodesInLevel *= 2
             counter = 0;
             (row.length > 0) && (result.push(row));
@@ -106,7 +108,7 @@ var levelOrder = function(root) {
         }
     }
 
-    // console.log(cycle)
+    console.log(cycle)
     return result
 };
 
@@ -123,9 +125,9 @@ var levelOrder = function(root) {
 // const tree = []
 // const tree = [1]
 // const tree = [1,2,3,4,5,6,7]
-// tree = [1,2,3,null,4,5]
+tree = [1,2,3,null,4,5]
 
-const tree = [1,2,null,3,null,4,null,5]
+// const tree = [1,2,null,3,null,4,null,5]
 // const tree = [1,2,3,null,4,null,5]
 const root1 = deserializeLevelOrder(tree)
 

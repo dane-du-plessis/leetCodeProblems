@@ -68,42 +68,45 @@ var levelOrderPrint = function(root) {
     }
 };
 
-
-var levelOrderTrav = function(root) {
-    // console.log(root)
-    // console.log(root.left)
-    // console.log(root.left.left)
+var levelOrder = function(root) {
     if (!root)
         return []
+    // const max = 1000
+    // let cycle = 0
 
     const result = []
     let row = []
     const queue = []
-    queue.push(root)
-    let node
-    let c = 0
     let nodesInLevel = 1
+    let counter = 0
+    let node
+    // do stuff
+    queue.push(root)
+    // while(queue.length > 0 || cycle > max) {
+    while(queue.length > 0) {
 
-    while (queue.length > 0) {
+        // cycle++
         node = queue.shift()
-        // console.log("c " + c)
-        c++
+        // console.log(node.val)
+        counter++// read queue -> increment counter
         if (node !== null) {
-            row.push(node.val);
-            queue.push(node.left);
-            queue.push(node.right);
+            (node.val !== null && node.val !== undefined) && (row.push(node.val));
+            queue.push(node.left)
+            queue.push(node.right)
+        } else {
+            // queue.push(null)
         }
-        if (c >= nodesInLevel) {
-            // console.log(row)
-            row.length > 0 && result.push(row);
-            row = [];
-            nodesInLevel *= 2;
-            c = 0;
+
+        if (counter >= nodesInLevel) {
+            // console.log(counter + " " + nodesInLevel + " " + row)
+            nodesInLevel *= 2
+            counter = 0;
+            (row.length > 0) && (result.push(row));
+            row = []
         }
     }
 
-    // console.log(result)
-
+    // console.log(cycle)
     return result
 };
 
@@ -117,22 +120,31 @@ var levelOrderTrav = function(root) {
 // const tree = [3,9,20,null,null,15,7]
 // const tree = [0, null, 2, null, null, 4, 5]
 // const tree = [1,null,2,null,3,null,4,33,44]
+// const tree = []
 // const tree = [1]
 // const tree = [1,2,3,4,5,6,7]
-const tree = [1,2,3,null,4,null,5]
+// tree = [1,2,3,null,4,5]
+
+const tree = [1,2,null,3,null,4,null,5]
+// const tree = [1,2,3,null,4,null,5]
 const root1 = deserializeLevelOrder(tree)
 
 const root2 =  new TreeNode(1)
 let tree2 = root2
 tree2.left = new TreeNode(2)
 tree2.left.left = new TreeNode(3)
-tree2.left.left.left = new TreeNode(4)
-tree2.left.left.left.left = new TreeNode(5)
+// tree2.left.left.left = new TreeNode(4)
+// tree2.left.left.left.left = new TreeNode(5)
 
 
 // console.log(root)
 // console.log(tree)
-console.log(levelOrderTrav(root1))
+levelOrderPrint(root1)
+console.log(levelOrder(root1))
+
+// levelOrderPrint(root2)
+// console.log(levelOrderTrav(root2))
+
 // levelOrderPrint(root1)
 // console.log('============================')
 // levelOrderPrint(root2)

@@ -49,7 +49,7 @@ let traverseLevelOrder = function(root) {
     }
 }
 
-let serializeInOrder = function(arr) {
+let deserializeLevelOrder = function(arr) {
     if (arr.length == null)
         return null
 
@@ -60,8 +60,6 @@ let serializeInOrder = function(arr) {
     let node
     while (i < arr.length) {
         node = queue.shift()
-        // (arr.length > ++i) && (node.left  = new TreeNode(arr[i]));
-        // (arr.length > ++i) && (node.right = new TreeNode(arr[i]));
         
         if (++i < arr.length) {
             node.left  = new TreeNode(arr[i]);
@@ -108,6 +106,6 @@ temp.right = new TreeNode(7)
 
 const tree = [1,2,null,4]
 
-const deserializedTree = serializeInOrder(tree)
+const deserializedTree = deserializeLevelOrder(tree)
 
 traverseLevelOrder(deserializedTree)

@@ -2,48 +2,49 @@ let mergeSort = function(arr, left, right) {
     console.log(arr + " " + left + " " + right)
     if (left < right) {
         let mid = Math.floor((left+right)/2)
+        console.log(left + ' | ' + mid + ' | ' + right)
         mergeSort(arr, left, mid)
         mergeSort(arr, mid+1, right)
-        return merge(arr, left, mid, right)
+        arr = merge(arr.slice(left, mid+1), arr.slice(mid+1, right+1))
+        return arr
     }
 }
 
-
-let merge = function(arr, left, mid, right) {
-    // merge two sorted lists (not in-place)
-    let result = []
-    let arrLeft = arr.slice(left, mid);
-    let arrRight = arr.slice(mid, right);
-
-    console.log(left + " " + mid + " " + right)
-    console.log(arr + "")
-    console.log(arrLeft + ' ' + arrRight)
-
-    let k = 0;
-    // let maxLen = arrLeft.length + arrRight.length;
-    let i = 0;
-    let j = 0;
-    while (i < arrLeft.length && j < arrRight.length) {
-        if (arrLeft[i] <= arrRight[j]) {
-            result[k++] = arrLeft[i++]
+let isSorted = function(arr) {
+    let element = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        if ((arr[i] >= element)) {
+            element = arr[i];
         } else {
-            result[k++] = arrRight[j++]
+            throw "Array " + arr + " is not sorted!";
         }
     }
+}
 
-    // if the lists are different lengths, add any trailing elememnts to result
-    if (i < arrLeft.length) {
-        for (let c = i; c < arrLeft.length; c++)
-            result.push(arrLeft[c]);
-    } 
-    if (j < arrRight.length) {
-        for (let c = j; c < arrRight.length; c++) {
-            result.push(arrRight[c]);
-        }
+let merge = function(arrLeft, arrRight) {
+    // merge two sorted lists (not in-place)
+
+    try {
+        isSorted(arrLeft);
+        isSorted(arrRight);
+    } catch(e) {
+        console.error(e);
     }
 
-    // and return it
-    console.log(result)
+    let result = []
+    console.log(arrLeft + ' <<0>> ' + arrRight)
+    while (arrLeft.length > 0 && arrRight.length > 0) {
+        arrLeft[arrLeft.length-1] >= arrRight[arrRight.length-1] ? 
+            result.unshift(arrLeft.pop()) :
+            result.unshift(arrRight.pop())
+    }
+    while (arrLeft.length > 0) {
+        result.unshift(arrLeft.pop())
+    }
+    while (arrRight.length > 0) {
+        result.unshift(arrRight.pop())
+    }
+    console.log(">>>> " + result)
     return result
 }
 
@@ -51,10 +52,7 @@ let mergeSortStart = function(arr) {
     return mergeSort(arr, 0, arr.length-1)
 }
 
-
-
 // -------------------------------------------------------
-
 
 var testInput = function(inputString, expectedString) {
     if(inputString === expectedString) {
@@ -65,31 +63,17 @@ var testInput = function(inputString, expectedString) {
 }
 
 
-testInput(mergeSortStart([2,1]).toString(), '1,2')
+// testInput(mergeSortStart([2,1]).toString(), '1,2')
 testInput(mergeSortStart([5,3,4,1,2]).toString(), '1,2,3,4,5')
-testInput(mergeSortStart([6,5,4,3,2,1,0]).toString(), '0,1,2,3,4,5,6')
-testInput(mergeSortStart([6,5,4,3,2,1,0]).toString(), '0,1,2,3,4,5,6')
+// testInput(mergeSortStart([6,5,4,3,2,1,0]).toString(), '0,1,2,3,4,5,6')
+// testInput(mergeSortStart([6,5,4,3,2,1,0]).toString(), '0,1,2,3,4,5,6')
 // testInput(mergeSortStart([1]).toString(), '1')
 // testInput(mergeSortStart([]).toString(), '')
 
 
-/*
-let arr =[2,3,4,5,6,7,8];
-// let arr =[1];
-let L = 0;
-let R = arr.length-1;
-let mid = Math.floor((L+R)/2);
-console.log(merge(arr, L, mid, R));
-*/
-
-
-// let arr = [1,3,5,2,4,6];
-// let arr = [1,2,3,-3,-2,-1,0];
-// let arr = [2,1];
-// let arr = [1];
-// let arr = [];
-// let L = 0;
-// let R = arr.length;
-// let mid = Math.floor((L+R)/2);
-// console.log(L + ' ' + mid + ' ' + R)
-// merge(arr, L, mid, R)
+// console.log(merge([1,3,5], [2,4,6]))
+// console.log(merge([1,3,5,7], [2,4,6,11]))
+// console.log(merge([1,3,5,7], [0,1]))
+// console.log(merge([], []))
+// console.log(merge([-1,0,1], [-3,3]))
+// console.log(merge([5,3,4], [1,2]))

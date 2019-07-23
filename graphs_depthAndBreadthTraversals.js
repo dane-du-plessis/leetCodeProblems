@@ -1,5 +1,5 @@
 /**
- * A simple piece of code demonstrating a depth first traversal of a graph.
+ * A simple piece of code demonstrating a depth/breadth first traversal of a graph.
  */
 class Arc {
     constructor() {

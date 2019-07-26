@@ -13,6 +13,7 @@ class GraphNode {
         this.y = y
         this.target = false // so that we know whether or not this is what we want
         this.outgoing = [] // directed graph
+        this.stepsToHere = 0
     }
 }
 
@@ -24,24 +25,41 @@ class Arc {
 }
 
 
-let grid = [
-    [0,0,0,0],
-    [0,1,1,1],
-    [0,1,9,0],
-    [0,1,1,0],
-    [0,0,0,0]
-];
+// let grid = [
+//     [0,0,0,0,0,0,0],
+//     [0,1,1,0,1,1,1],
+//     [0,1,9,0,0,0,0],
+//     [0,1,1,0,0,0,0],
+//     [0,0,0,0,0,0,0]
+// ];
 
-// grid = [
+// let grid = [
 //     [0,0,0],
 //     [0,0,9]
 // ];
 
-// const grid = [
+// let grid = [
 //     [0,0,0],
 //     [0,1,1],
 //     [0,0,9]
 // ];
+
+// let grid = [
+//     [0,0,0],
+//     [0,9,0]
+// ];
+
+
+let grid = [
+    [0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,],
+    [0,0,1,9,1,0,1,0,1,0,0,1,1,1,1,1,0,0,0,],
+    [0,0,1,0,1,0,1,0,1,0,0,1,0,0,1,1,0,0,0,],
+    [0,0,1,0,1,0,1,0,1,0,0,1,0,0,9,1,0,0,0,],
+    [0,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,0,],
+    [0,0,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,0,],
+    [0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,],
+    [0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,],
+];
 
 let numRows = grid.length;
 let numCols = grid[0].length;
@@ -154,3 +172,34 @@ for (let i = 0; i < numRows; i++) {
 
 log(allNodes)
 log(allNodes.size)
+
+
+// conduct a depth first search to find the shortest route to the destination cell
+
+log('===========================================')
+log('===========================================')
+log('===========================================')
+log('===========================================')
+
+let dfs = function(node) {
+    let visited = new Set()
+    let queue = [] // push and shift to enqueue and dequeue
+    queue.push(node)
+
+    while(queue.length > 0) {
+        let current = queue.shift()
+        if(!visited.has(current)) {
+            log(current.x + ' ' + current.y + ' >>> ' + current.stepsToHere)
+            visited.add(current)
+            if(current.target) break
+            for(let i = 0; i < current.outgoing.length; i++) {
+                // enqueue
+                current.outgoing[i].stepsToHere = current.stepsToHere + 1
+                queue.push(current.outgoing[i])
+            }
+        }
+    }
+    // console.log(counter)
+}
+
+dfs(root)

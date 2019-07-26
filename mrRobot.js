@@ -1,10 +1,10 @@
 // Given an m x n grid, find the number of ways a robot can move left, right, up, down to reach a destination cell at i,j starting from 0,0. 
 // Some cells are not navigable and marked 1. The destination cell is marked 9. Navigable cells are marked 0.
 // Find:
-// 1. The minimum number of steps required to reach the destination cell from the origin.
-// 2. The exact path that is the sortest route.
-// 3. The maximum number of steps required to reach the destination cell from the origin.
-// 4. The longest possible path.
+// 1. The minimum number of steps required to reach the destination cell from the origin. -- Maintain counter value in each node
+// 2. The exact path that is the sortest route. -- Maintain pointer to parent node. Once found, the return path is easy to recover (breadcrumb solution)
+// 3. The maximum number of steps required to reach the destination cell from the origin. -- This won't exist for a BFS
+// 4. The longest possible path. -- Won't find this with a BFS -- Need some other way. This is a sort of optimal packing problem - how much rope can you fit into the space shuttle
 let log = console.log
 
 class GraphNode {

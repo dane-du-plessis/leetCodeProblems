@@ -2,11 +2,11 @@
 const Grids = require('./Grids')
 const log = console.log;
 
-const grid = Grids.grid;
+const grid = Grids.grid2;
 
 log(grid)
 
-let enqueueSurrounding = function(queue, grid, x, y) {
+let enqueueSurrounding = function(queue, grid, depthGrid, x, y) {
     let numRows = grid.length
     let numCols = grid[0].length
     let i = x
@@ -16,12 +16,14 @@ let enqueueSurrounding = function(queue, grid, x, y) {
     i = x-1
     if(0 <= i && i < numRows && grid[i][j] !== -1) {
         queue.push([i,j])
+        depthGrid[i][j] = depthGrid[x][y] +1 
     }
 
     //down
     i = x+1
     if(0 <= i && i < numRows && grid[i][j] !== -1) {
         queue.push([i,j])
+        depthGrid[i][j] = depthGrid[x][y] +1 
     }
 
     //left
@@ -29,6 +31,7 @@ let enqueueSurrounding = function(queue, grid, x, y) {
     j = y-1
     if(0 <= j && j < numCols && grid[i][j] !== -1) {
         queue.push([i,j])
+        depthGrid[i][j] = depthGrid[x][y] +1 
     }
 
     //right
@@ -36,13 +39,17 @@ let enqueueSurrounding = function(queue, grid, x, y) {
     j = y+1
     if(0 <= j && j < numCols && grid[i][j] !== -1) {
         queue.push([i,j])
+        depthGrid[i][j] = depthGrid[x][y] +1 
     }
 }
 
 let bfs = function(grid) {
+    let depthGrid = grid.map(x => x.map(y => y)) // deep copy this sucker, forget about slice()
+    depthGrid[0][0] = 0
     let queue = []
     queue.push([0,0]) // [x,y] - cell to visit next
-    let x, y, counter = 0
+    let x, y
+
     while(queue.length > 0) {
         let current = queue.shift() // dequeue an element
 
@@ -51,9 +58,9 @@ let bfs = function(grid) {
 
         log('current ' + current + ' -> ' + grid[x][y])
         if(grid[x][y] === 0 || grid[x][y] === 9) {
-            log("adding")
+            // log("adding")
             if(grid[x][y] === 9) {
-                log('found target at (' + x + ' ,' + y + ')')
+                log('found target at (' + x + ' ,' + y + ')  -> DEPTH: ' + depthGrid[x][y])
                 break
             }
 
@@ -61,8 +68,9 @@ let bfs = function(grid) {
             grid[x][y] = -1
 
             // enqueue surrounding available cells
-            enqueueSurrounding(queue, grid, x, y)
+            enqueueSurrounding(queue, grid, depthGrid, x, y)
         }
+        log(depthGrid)
     }
 }
 

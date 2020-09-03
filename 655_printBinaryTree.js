@@ -13,40 +13,34 @@
 var printTree = function (root) {
     if (!root) return;
     addRow([root])
-
-};
+}
 
 var addRow = function (row) {
-    if (row == null) return
     let childRow = []
-    let allNulls = true
+    let childEmpty = true
     for (let index = 0; index < row.length; index++) {
         const element = row[index]
-        if (element === ' ') {
-            continue
-        }
-
         if (element.left == null) {
             childRow.push(' ')
         } else {
-            allNulls = false
+            childEmpty = false
             childRow.push(element.left)
         }
         if (element.right == null) {
             childRow.push(' ')
         } else {
-            allNulls = false
+            childEmpty = false
             childRow.push(element.right)
         }
     }
 
-    console.log(row)
-    const lastRow = row.map(n => n !== " " ? n.val : " ")
-    console.log(lastRow)
-
-    if (allNulls) return
-    // construct and return the current row
+    const showRow = row.map(n => n !== " " ? n.val : " ")
+    if (childEmpty) {
+        console.log(showRow)
+        return
+    }
     addRow(childRow)
+    console.log(showRow)
 }
 
 function TreeNode(val) {
@@ -73,9 +67,9 @@ let temp = root
 temp.left = new TreeNode(2)
 temp.right = new TreeNode(3)
 
-// temp = temp.left
-// temp.left = new TreeNode(4)
-// temp.right = new TreeNode(5)
+temp = temp.left
+temp.left = new TreeNode(4)
+temp.right = new TreeNode(5)
 
 temp = root.right
 temp.left = new TreeNode(6)

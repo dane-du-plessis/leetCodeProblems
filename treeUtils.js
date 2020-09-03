@@ -111,5 +111,4 @@ const deserializedTree = deserializeLevelOrder(tree)
 traverseLevelOrder(deserializedTree)
 
 // ----------------------------------------------
-let num;
-export default num = 11;
+;

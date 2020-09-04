@@ -12,9 +12,53 @@
  */
 var printTree = function (root) {
     if (!root) return;
-    addRow([root])
+    // addRow([root]) // sort of what I had in mind
+    buildTree(root)
 }
 
+// iterative and recursive approach
+var buildTree = function (root) {
+    // first build the tree interatively
+    let currentRow = [root]
+    let nextRow = []
+    let treeArray = [currentRow]
+    let empty = false
+    // number of nodes in current level
+    let nodesInLevel = 1
+    // this loop serves to keep adding empty nodes
+    while (!empty) {
+        empty = true
+        // there will be nodesInLevel arrays in this row, nest arrays to this depth
+        for (let index = 0; index < currentRow.length; index++) {
+            const element = currentRow[index]
+            console.log('Element: ', element)
+            let leftChild = [], rightChild = []
+            if (element.left == null) {
+                leftChild.push(' ')
+            } else {
+                empty = false
+                leftChild.push(element.left)
+            }
+            nextRow.push(leftChild)
+            if (element.right == null) {
+                rightChild.push(' ')
+            } else {
+                empty = false
+                rightChild.push(element.right)
+            }
+            nextRow.push(rightChild)
+            nodesInLevel *= 2
+        }
+
+        // load currentRow in to tree, set nextRow
+        currentRow = nextRow
+        treeArray.push(currentRow)
+        nextRow = []
+    }
+    console.log(treeArray)
+}
+
+// recursive approach
 var addRow = function (row) {
     let childRow = []
     let childEmpty = true
@@ -48,19 +92,6 @@ function TreeNode(val) {
     this.left = this.right = null;
 }
 
-function traverseLevelOrder(root) {
-    if (!root) return
-    let queue = [root]
-    let traversal = []
-    let node
-    while (queue.length > 0) {
-        node = queue.shift()
-        traversal.push(node.val)
-        node.left && queue.push(node.left)
-        node.right && queue.push(node.right)
-    }
-    return traversal;
-}
 
 const root = new TreeNode(1)
 let temp = root

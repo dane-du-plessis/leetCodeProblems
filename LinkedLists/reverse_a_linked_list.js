@@ -46,15 +46,46 @@ var reverseList = function (head) {
     return curr
 }
 
+var reverseList2 = function(head) {
+    if (head === null) return head
+    var prev = null
+    var curr = head
+    var next = curr.next
+    
+    if (next === null) return head
+    
+    while (next !== null) {
+        curr.next = prev
+        prev = curr
+        curr = next
+        next = next.next
+    }
+    curr.next = prev
+    return curr
+}
+
+var findMidNode = function(head) {
+    var fast = head
+    var slow = head
+    while(fast !== null && fast.next !== null) {
+        fast = fast.next.next
+        slow = slow.next
+    }
+    return slow
+}
+
 let head = new ListNode(0)
 let list = head
-for (let i = 1; i < 10; i++) {
+for (let i = 1; i < 4; i++) {
     list.next = new ListNode(i)
     list = list.next
 }
 
+
 printList(head)
 
-let reversed = reverseList(head)
+console.log(findMidNode(head))
+
+let reversed = reverseList2(head)
 
 printList(reversed)
